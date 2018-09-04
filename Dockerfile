@@ -24,6 +24,11 @@ RUN \
     unzip gradle-4.9-bin.zip && \
     rm gradle-4.9-bin.zip
 
+#================
+# Install git
+#================
+RUN apt-get install --assume-yes git
+
 #===============
 # Install Docker
 #===============
@@ -35,8 +40,4 @@ RUN add-apt-repository  "deb [arch=amd64] https://download.docker.com/linux/ubun
 RUN apt-get update
 RUN apt-get -y install docker-ce
 
-#===============
-# Set DOCKER_HOST
-#===============
-ENV DOCKER_HOST=tcp://192.168.0.40:2375
 
