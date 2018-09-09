@@ -1,18 +1,27 @@
 FROM ubuntu:16.04
 
 RUN apt-get -qqy update && apt-get -qqy install --no-install-recommends \
-openjdk-8-jdk \
 curl \
 unzip \
 apt-transport-https \
 ca-certificates \
 software-properties-common
 
+#===============
+# Install Java
+#===============
+RUN \
+  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
+  add-apt-repository -y ppa:webupd8team/java && \
+  apt-get update && \
+  apt-get install -y oracle-java8-installer && \
+  rm -rf /var/lib/apt/lists/* && \
+  rm -rf /var/cache/oracle-jdk8-installer
 
 #===============
 # Set JAVA_HOME
 #===============
-ENV JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/jre" \
+ENV JAVA_HOME="/usr/lib/jvm/java-8-oracle" \
     PATH=$PATH:$JAVA_HOME/bin
 
 #================
@@ -39,5 +48,7 @@ RUN add-apt-repository  "deb [arch=amd64] https://download.docker.com/linux/ubun
 
 RUN apt-get update
 RUN apt-get -y install docker-ce
+
+
 
 
